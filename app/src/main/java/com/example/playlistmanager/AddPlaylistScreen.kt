@@ -8,11 +8,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.playlistmanager.data.Song
 
 @Composable
 fun AddPlaylistScreen(
-    onSongAdded: (Song) -> Unit,
+    onSongAdded: (String, String, Int, String) -> Unit,
     onBack: () -> Unit
 ) {
     var songTitle by remember { mutableStateOf("") }
@@ -52,7 +51,7 @@ fun AddPlaylistScreen(
                 .padding(vertical = 4.dp)
         )
 
-        // Rating input
+        // Rating input (1-5)
         OutlinedTextField(
             value = rating,
             onValueChange = { rating = it },
@@ -80,7 +79,7 @@ fun AddPlaylistScreen(
                 if (songTitle.isNotEmpty() && artistName.isNotEmpty() && rating.isNotEmpty()) {
                     val ratingInt = rating.toIntOrNull() ?: 1
                     val validRating = if (ratingInt in 1..5) ratingInt else 1
-                    onSongAdded(Song(songTitle, artistName, validRating, comments))
+                    onSongAdded(songTitle, artistName, validRating, comments)
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -104,8 +103,8 @@ fun AddPlaylistScreen(
 @Composable
 fun AddPlaylistScreenPreview() {
     AddPlaylistScreen(
-        onSongAdded = { song: Song ->
-            println(song)
+        onSongAdded = { title, artist, rating, comments ->
+            println("Song Added: $title by $artist with rating $rating and comments: $comments")
         },
         onBack = {}
     )
