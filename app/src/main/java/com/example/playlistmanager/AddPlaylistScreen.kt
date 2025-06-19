@@ -31,7 +31,7 @@ fun AddPlaylistScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
-        // Song Title input
+        // song title input
         OutlinedTextField(
             value = songTitle,
             onValueChange = { songTitle = it },
@@ -41,7 +41,7 @@ fun AddPlaylistScreen(
                 .padding(vertical = 4.dp)
         )
 
-        // Artist Name input
+        // artist name input
         OutlinedTextField(
             value = artistName,
             onValueChange = { artistName = it },
@@ -51,7 +51,7 @@ fun AddPlaylistScreen(
                 .padding(vertical = 4.dp)
         )
 
-        // Rating input (1-5)
+        // rating input
         OutlinedTextField(
             value = rating,
             onValueChange = { rating = it },
@@ -61,7 +61,7 @@ fun AddPlaylistScreen(
                 .padding(vertical = 4.dp)
         )
 
-        // Comments input
+        // comments input
         OutlinedTextField(
             value = comments,
             onValueChange = { comments = it },
@@ -73,7 +73,7 @@ fun AddPlaylistScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Add Song button
+        // add song button
         Button(
             onClick = {
                 if (songTitle.isNotEmpty() && artistName.isNotEmpty() && rating.isNotEmpty()) {
@@ -87,7 +87,7 @@ fun AddPlaylistScreen(
             Text("Add Song")
         }
 
-        // Back button
+        // back button
         Button(
             onClick = onBack,
             modifier = Modifier

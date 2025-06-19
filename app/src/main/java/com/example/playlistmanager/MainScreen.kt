@@ -36,7 +36,7 @@ fun MainScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Add to Playlist button
+        // add to playlist button
         Button(
             onClick = onAddPlaylist,
             modifier = Modifier
@@ -46,7 +46,7 @@ fun MainScreen(
             Text("Add to Playlist")
         }
 
-        // Navigate to second screen button
+        // navigate to list
         Button(
             onClick = onNavigateToDetails,
             modifier = Modifier
@@ -56,7 +56,7 @@ fun MainScreen(
             Text("View Detailed Playlist")
         }
 
-        // Exit app button
+        // close
         Button(
             onClick = onExit,
             modifier = Modifier
