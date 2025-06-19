@@ -115,6 +115,7 @@ fun DetailedViewScreen(
         Button(
             onClick = onBack,
             modifier = Modifier.fillMaxWidth()
+                .padding(vertical = 24.dp)
         ) {
             Text("Back to Main Screen")
         }

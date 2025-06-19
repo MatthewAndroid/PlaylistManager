@@ -55,7 +55,8 @@ fun AddPlaylistScreen(
         // song title input
         OutlinedTextField(
             value = songTitle,
-            onValueChange = { songTitle = it },
+            onValueChange = { songTitle = it
+                if (showError) showError = false},
             label = { Text("Song Title") },
             isError = showError && songTitle.isEmpty(),
             modifier = Modifier
@@ -66,7 +67,8 @@ fun AddPlaylistScreen(
         // artist name input
         OutlinedTextField(
             value = artistName,
-            onValueChange = { artistName = it },
+            onValueChange = { artistName = it
+                if (showError) showError = false},
             label = { Text("Artist Name") },
             isError = showError && artistName.isEmpty(),
             modifier = Modifier
@@ -90,7 +92,8 @@ fun AddPlaylistScreen(
         // comments input
         OutlinedTextField(
             value = comments,
-            onValueChange = { comments = it },
+            onValueChange = { comments = it
+                if (showError) showError = false},
             label = { Text("Comments") },
             modifier = Modifier
                 .fillMaxWidth()
