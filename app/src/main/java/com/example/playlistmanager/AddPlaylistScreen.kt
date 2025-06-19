@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,8 @@ fun AddPlaylistScreen(
     var artistName by remember { mutableStateOf("") }
     var rating by remember { mutableStateOf("") }
     var comments by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -31,11 +34,30 @@ fun AddPlaylistScreen(
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
+        //shows error
+        if (showError) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.Red.copy(alpha = 0.1f))
+            ) {
+                Text(
+                    text = errorMessage,
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.padding(12.dp)
+                )
+            }
+        }
+
         // song title input
         OutlinedTextField(
             value = songTitle,
             onValueChange = { songTitle = it },
             label = { Text("Song Title") },
+            isError = showError && songTitle.isEmpty(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
@@ -46,6 +68,7 @@ fun AddPlaylistScreen(
             value = artistName,
             onValueChange = { artistName = it },
             label = { Text("Artist Name") },
+            isError = showError && artistName.isEmpty(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
@@ -56,6 +79,9 @@ fun AddPlaylistScreen(
             value = rating,
             onValueChange = { rating = it },
             label = { Text("Rating (1-5)") },
+            //shows error if rating is empty || not valid || too big or small
+            isError = showError && (rating.isEmpty() || rating.toIntOrNull() == null
+                    || rating.toIntOrNull() !in 1..5),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
@@ -76,10 +102,33 @@ fun AddPlaylistScreen(
         // add song button
         Button(
             onClick = {
-                if (songTitle.isNotEmpty() && artistName.isNotEmpty() && rating.isNotEmpty()) {
-                    val ratingInt = rating.toIntOrNull() ?: 1
-                    val validRating = if (ratingInt in 1..5) ratingInt else 1
-                    onSongAdded(songTitle, artistName, validRating, comments)
+                when {
+                    songTitle.isEmpty() -> {
+                        errorMessage = "Please enter a song title"
+                        showError = true
+                    }
+                    artistName.isEmpty() -> {
+                        errorMessage = "Please enter an artist name"
+                        showError = true
+                    }
+                    rating.isEmpty() -> {
+                        errorMessage = "Please enter a rating"
+                        showError = true
+                    }
+                    rating.toIntOrNull() == null -> {
+                        errorMessage = "Rating must be a number"
+                        showError = true
+                    }
+                    rating.toIntOrNull() !in 1..5 -> {
+                        errorMessage = "Rating must be between 1 and 5"
+                        showError = true
+                    }
+                    else -> {
+                        // success woohoo!
+                        val ratingInt = rating.toInt()
+                        onSongAdded(songTitle, artistName, ratingInt, comments)
+                        showError = false
+                    }
                 }
             },
             modifier = Modifier.fillMaxWidth()
